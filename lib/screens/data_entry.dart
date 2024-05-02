@@ -22,9 +22,9 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
   late String _selectedActivity;
   List<String> activityList = <String>[
     'Namaz',
-    'Taharat',
     'Zikar',
     'Tilawat',
+    'Taharat',
     'Sleeping',
     'Reading',
     'Teaching',
@@ -192,7 +192,6 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
                           ..notes = _notesController.text;
                         activityService.addNewActivity(activity);
                         resetAll();
-                        Navigator.pop(context);
                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(

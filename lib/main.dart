@@ -54,7 +54,7 @@ class MyApp extends StatelessWidget {
                         ),
                       );
                     },
-                    child: const Text('Go to Data Entry Screen'),
+                    child: const Text('Go to Activity Add Screen'),
                   )
                 ],
               ),
