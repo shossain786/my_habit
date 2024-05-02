@@ -14,7 +14,7 @@ class ActivityTable extends StatelessWidget {
       scrollDirection: Axis.horizontal,
       child: DataTable(
         columns: const [
-          DataColumn(label: Text('Title')),
+          DataColumn(label: Text('Activity')),
           DataColumn(label: Text('Details')),
           DataColumn(label: Text('Start Time')),
           DataColumn(label: Text('End Time')),
