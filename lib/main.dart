@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:my_habit/model/activity_model.dart';
-import 'package:my_habit/screens/activity_table_screen.dart';
 import 'package:my_habit/services/activity_service.dart';
 
 import 'screens/data_entry.dart';
