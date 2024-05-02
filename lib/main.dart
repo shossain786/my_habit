@@ -18,7 +18,25 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(colorScheme: kColorScheme),
+      theme: ThemeData(
+        colorScheme: kColorScheme,
+        dropdownMenuTheme: DropdownMenuThemeData(
+          textStyle: TextStyle(
+            color: kColorScheme.onPrimaryContainer,
+          ),
+        ),
+        menuTheme: MenuThemeData(
+          style: MenuStyle(
+            backgroundColor: MaterialStatePropertyAll<Color>(
+              Colors.purple.withOpacity(0.6),
+            ),
+            shadowColor: const MaterialStatePropertyAll(Colors.blue),
+            shape: const MaterialStatePropertyAll(
+              BeveledRectangleBorder(),
+            ),
+          ),
+        ),
+      ),
       home: Builder(
         builder: (context) => Scaffold(
           body: SafeArea(

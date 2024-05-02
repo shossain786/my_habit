@@ -21,6 +21,10 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
   TimeOfDay? _endTime;
   late String _selectedActivity;
   List<String> activityList = <String>[
+    'Namaz',
+    'Taharat',
+    'Zikar',
+    'Tilawat',
     'Sleeping',
     'Reading',
     'Teaching',
@@ -30,15 +34,11 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
     'Cooking',
     'Work',
     'Home Work',
-    'Taharat',
-    'Namaz',
     'Class',
     'Playing',
     'Doctor Visit',
     'Family Work',
     'Phone Calls',
-    'Zikar',
-    'Tilawat',
     'Social Media',
     'Youtube',
     'Others'
@@ -51,119 +51,172 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
         title: const Text('Add Activity'),
       ),
       body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              DropdownMenu<String>(
-                dropdownMenuEntries:
-                    activityList.map<DropdownMenuEntry<String>>(
-                  (String value) {
-                    return DropdownMenuEntry<String>(
-                        value: value, label: value);
-                  },
-                ).toList(),
-                onSelected: (value) {
-                  setState(() {
-                    _selectedActivity = value.toString();
-                  });
-                },
-              ),
-              const SizedBox(height: 16.0),
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(color: kColorScheme.onPrimaryContainer),
-                ),
-                child: TextField(
-                  maxLines: 3,
-                  controller: _notesController,
-                  decoration: const InputDecoration(
-                    contentPadding: EdgeInsets.all(16),
-                    border: InputBorder.none,
-                    labelText: 'Enter Activity Details',
-                  ),
-                ),
-              ),
-              const SizedBox(height: 16.0),
-              Row(
-                children: [
-                  Expanded(
-                    child: ListTile(
-                      title: Text(_startTime != null
-                          ? 'Start Time: ${_startTime!.format(context)}'
-                          : 'Select Start Time'),
-                      onTap: () async {
-                        final selectedTime = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.now(),
-                        );
-                        if (selectedTime != null) {
-                          setState(() {
-                            _startTime = selectedTime;
-                          });
-                        }
+        child: Container(
+          margin: const EdgeInsets.all(5),
+          decoration: BoxDecoration(
+              border: Border.all(width: 1),
+              borderRadius: BorderRadius.circular(10),
+              gradient: const LinearGradient(colors: [
+                Colors.cyanAccent,
+                Colors.yellow,
+              ])),
+          child: Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    const Text(
+                      'Select Activity',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                      ),
+                    ),
+                    DropdownMenu<String>(
+                      menuHeight: 250,
+                      width: 160,
+                      label: const Text('Activity'),
+                      menuStyle: const MenuStyle(
+                        elevation: MaterialStatePropertyAll(10),
+                      ),
+                      requestFocusOnTap: true,
+                      dropdownMenuEntries:
+                          activityList.map<DropdownMenuEntry<String>>(
+                        (String value) {
+                          return DropdownMenuEntry<String>(
+                            value: value,
+                            label: value,
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStatePropertyAll(
+                                kColorScheme.onSecondary,
+                              ),
+                              textStyle: const MaterialStatePropertyAll(
+                                TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          );
+                        },
+                      ).toList(),
+                      onSelected: (value) {
+                        setState(() {
+                          _selectedActivity = value.toString();
+                        });
                       },
                     ),
+                  ],
+                ),
+                const SizedBox(height: 16.0),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    border: Border.all(color: kColorScheme.onPrimaryContainer),
                   ),
-                  Expanded(
-                    child: ListTile(
-                      title: Text(_endTime != null
-                          ? 'End Time: ${_endTime!.format(context)}'
-                          : 'Select End Time'),
-                      onTap: () async {
-                        final selectedTime = await showTimePicker(
-                          context: context,
-                          initialTime: TimeOfDay.now(),
-                        );
-                        if (selectedTime != null) {
-                          setState(() {
-                            _endTime = selectedTime;
-                          });
-                        }
-                      },
+                  child: TextField(
+                    maxLines: 3,
+                    controller: _notesController,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.all(16),
+                      border: InputBorder.none,
+                      labelText: 'Enter Activity Details',
                     ),
                   ),
-                ],
-              ),
-              const SizedBox(height: 16.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  ElevatedButton(
-                    onPressed: () async {
-                      if (_startTime == null || _endTime == null) {
-                        ScaffoldMessenger.of(context)
-                            .showSnackBar(const SnackBar(
-                          content:
-                              Text('Please select both start and end times.'),
-                        ));
-                        return;
-                      }
-                      final activity = Activity()
-                        ..title = _selectedActivity
-                        ..startTime = convertTimeOfDayToDateTime(_startTime!)
-                        ..endTime = convertTimeOfDayToDateTime(_endTime!)
-                        ..notes = _notesController.text;
-                      activityService.addNewActivity(activity);
-                      resetAll();
-                    },
-                    child: const Text('Add Activity'),
-                  ),
-                  ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ActivityTableScreen(),
+                ),
+                const SizedBox(height: 16.0),
+                Row(
+                  children: [
+                    Expanded(
+                      child: ListTile(
+                        title: Text(
+                          _startTime != null
+                              ? 'Start Time: ${_startTime!.format(context)}'
+                              : 'Select Start Time',
                         ),
-                      );
-                    },
-                    child: const Text('Display Data'),
-                  ),
-                ],
-              )
-            ],
+                        onTap: () async {
+                          final selectedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+                          if (selectedTime != null) {
+                            setState(() {
+                              _startTime = selectedTime;
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                    Expanded(
+                      child: ListTile(
+                        title: Text(
+                          _endTime != null
+                              ? 'End Time: ${_endTime!.format(context)}'
+                              : 'Select End Time',
+                        ),
+                        onTap: () async {
+                          final selectedTime = await showTimePicker(
+                            context: context,
+                            initialTime: TimeOfDay.now(),
+                          );
+                          if (selectedTime != null) {
+                            setState(() {
+                              _endTime = selectedTime;
+                            });
+                          }
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16.0),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () async {
+                        if (_startTime == null || _endTime == null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              content: Text('Please provide all informations.'),
+                            ),
+                          );
+                          return;
+                        }
+                        final activity = Activity()
+                          ..title = _selectedActivity
+                          ..startTime = convertTimeOfDayToDateTime(_startTime!)
+                          ..endTime = convertTimeOfDayToDateTime(_endTime!)
+                          ..notes = _notesController.text;
+                        activityService.addNewActivity(activity);
+                        resetAll();
+                        Navigator.pop(context);
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const DataEntryScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text('Add Activity'),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ActivityTableScreen(),
+                          ),
+                        );
+                      },
+                      child: const Text('Display Data'),
+                    ),
+                  ],
+                )
+              ],
+            ),
           ),
         ),
       ),
@@ -177,7 +230,6 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
   }
 
   void resetAll() {
-    _selectedActivity = '';
     _notesController.clear();
     _startTime = null;
     _endTime = null;

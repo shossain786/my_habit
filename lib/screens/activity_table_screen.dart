@@ -15,18 +15,20 @@ class ActivityTableScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Activity Table'),
       ),
-      body: FutureBuilder<List<Activity>>(
-        future: activityService.getActivity(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else {
-            final activities = snapshot.data!;
-            return ActivityTable(activities: activities);
-          }
-        },
+      body: SingleChildScrollView(
+        child: FutureBuilder<List<Activity>>(
+          future: activityService.getActivity(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return Center(child: Text('Error: ${snapshot.error}'));
+            } else {
+              final activities = snapshot.data!;
+              return ActivityTable(activities: activities);
+            }
+          },
+        ),
       ),
     );
   }
