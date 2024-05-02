@@ -1,12 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_habit/services/activity_service.dart';
 
 import '../model/activity_model.dart';
 
-class ActivityTable extends StatelessWidget {
+class ActivityTable extends StatefulWidget {
   final List<Activity> activities;
 
   const ActivityTable({super.key, required this.activities});
+
+  @override
+  State<ActivityTable> createState() => _ActivityTableState();
+}
+
+class _ActivityTableState extends State<ActivityTable> {
+  List<Activity> _activities = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _activities = widget.activities;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,8 +33,9 @@ class ActivityTable extends StatelessWidget {
           DataColumn(label: Text('Start Time')),
           DataColumn(label: Text('End Time')),
           DataColumn(label: Text('Time Spent')),
+          DataColumn(label: Text('Actions')),
         ],
-        rows: activities.map((activity) {
+        rows: widget.activities.map((activity) {
           final startTimeFormatted =
               DateFormat('HH:mm').format(activity.startTime);
           final endTimeFormatted = DateFormat('HH:mm').format(activity.endTime);
@@ -38,9 +53,22 @@ class ActivityTable extends StatelessWidget {
             DataCell(Text(startTimeFormatted)),
             DataCell(Text(endTimeFormatted)),
             DataCell(Text(formattedDuration)),
+            DataCell(IconButton(
+              icon: const Icon(Icons.delete),
+              onPressed: () {
+                deleteItem(activity.id);
+              },
+            ))
           ]);
         }).toList(),
       ),
     );
+  }
+
+  Future<void> deleteItem(int id) async {
+    await ActivityService().deleteActivity(id);
+    setState(() {
+      _activities.removeWhere((activity) => activity.id == id);
+    });
   }
 }
