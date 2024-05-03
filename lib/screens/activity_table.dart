@@ -50,7 +50,7 @@ class _ActivityTableState extends State<ActivityTable> {
           final formattedDuration = '${hours}h ${minutes}m';
 
           return DataRow(cells: [
-            DataCell(Text(activity.title)),
+            DataCell(Text(activity.activity)),
             DataCell(Text(
               activity.notes,
               softWrap: true,

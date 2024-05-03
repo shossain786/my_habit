@@ -24,7 +24,7 @@ class _EditActivityScreenState extends State<EditActivityScreen> {
   @override
   void initState() {
     super.initState();
-    _titleController.text = widget.activity.title;
+    _titleController.text = widget.activity.activity;
     _notesController.text = widget.activity.notes;
     _startTime = TimeOfDay.fromDateTime(widget.activity.startTime);
     _endTime = TimeOfDay.fromDateTime(widget.activity.endTime);

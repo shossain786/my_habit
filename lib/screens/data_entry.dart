@@ -41,6 +41,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
     'Phone Calls',
     'Social Media',
     'Youtube',
+    'Meeting',
     'Others'
   ];
 
@@ -186,7 +187,8 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
                           return;
                         }
                         final activity = Activity()
-                          ..title = _selectedActivity
+                          ..activity = _selectedActivity
+                          ..date = convertTimeOfDayToDate(_startTime!)
                           ..startTime = convertTimeOfDayToDateTime(_startTime!)
                           ..endTime = convertTimeOfDayToDateTime(_endTime!)
                           ..notes = _notesController.text;
@@ -226,6 +228,11 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
     final now = DateTime.now();
     return DateTime(
         now.year, now.month, now.day, timeOfDay.hour, timeOfDay.minute);
+  }
+
+  DateTime convertTimeOfDayToDate(TimeOfDay timeOfDay) {
+    final now = DateTime.now();
+    return DateTime(now.year, now.month, now.day);
   }
 
   void resetAll() {

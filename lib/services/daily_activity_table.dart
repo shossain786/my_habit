@@ -37,7 +37,7 @@ class DailyActivityTable extends StatelessWidget {
     Map<String, Duration> activityDurations = {};
 
     for (var activity in activities) {
-      String activityTitle = activity.title;
+      String activityTitle = activity.activity;
       Duration duration = activity.endTime.difference(activity.startTime);
 
       if (activityDurations.containsKey(activityTitle)) {

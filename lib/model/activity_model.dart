@@ -6,7 +6,8 @@ part 'activity_model.g.dart';
 class Activity {
   Id id = Isar.autoIncrement;
 
-  late String title;
+  late String activity;
+  late DateTime date;
   late DateTime startTime;
   late DateTime endTime;
   late String notes;
