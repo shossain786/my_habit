@@ -39,7 +39,12 @@ class _ActivityTableState extends State<ActivityTable> {
           final startTimeFormatted =
               DateFormat('HH:mm').format(activity.startTime);
           final endTimeFormatted = DateFormat('HH:mm').format(activity.endTime);
-          final duration = activity.endTime.difference(activity.startTime);
+          DateTime adjustedEndTime =
+              activity.endTime.isBefore(activity.startTime)
+                  ? activity.endTime.add(const Duration(days: 1))
+                  : activity.endTime;
+
+          final duration = adjustedEndTime.difference(activity.startTime);
           final hours = duration.inHours;
           final minutes = duration.inMinutes.remainder(60);
           final formattedDuration = '${hours}h ${minutes}m';
