@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:my_habit/main.dart';
 import 'package:my_habit/services/activity_service.dart';
 
 import '../model/activity_model.dart';
@@ -59,7 +60,10 @@ class _ActivityTableState extends State<ActivityTable> {
             DataCell(Text(endTimeFormatted)),
             DataCell(Text(formattedDuration)),
             DataCell(IconButton(
-              icon: const Icon(Icons.delete),
+              icon: Icon(
+                Icons.delete,
+                color: kColorScheme.onSecondary,
+              ),
               onPressed: () {
                 deleteItem(activity.id);
               },
