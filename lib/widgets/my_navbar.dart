@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:my_habit/main.dart';
-import 'package:my_habit/screens/home_screen.dart';
 
 import '../screens/activity_table_screen.dart';
 
@@ -59,15 +58,11 @@ class _MyNavbarState extends State<MyNavbar> {
               ),
             ],
             selectedIndex: _selectedIndex,
+            haptic: true,
             onTabChange: (index) {
               setState(() {
                 _selectedIndex = index;
-                debugPrint('Tab pressed: $_selectedIndex');
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => _navigateToScreen(_selectedIndex),
-                    ));
+                _navigateToScreen();
               });
             },
           ),
@@ -76,11 +71,14 @@ class _MyNavbarState extends State<MyNavbar> {
     );
   }
 
-  Widget _navigateToScreen(int index) {
-    if (index == 1) {
-      return ActivityTableScreen();
-    } else {
-      return const HomeScreen();
+  void _navigateToScreen() {
+    if (_selectedIndex == 1) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ActivityTableScreen(),
+        ),
+      );
     }
   }
 }
