@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:my_habit/screens/home_screen.dart';
 import 'package:my_habit/services/activity_service.dart';
+import 'package:provider/provider.dart';
 
 var kColorScheme = ColorScheme.fromSeed(seedColor: Colors.deepPurple);
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
-  runApp(MyApp());
+  runApp(ChangeNotifierProvider(
+    create: (context) => ActivityService(),
+    child: MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -52,11 +56,11 @@ class MyApp extends StatelessWidget {
           ),
         ),
         colorScheme: kColorScheme.copyWith(
-          background: kColorScheme.onBackground,
+          background: kColorScheme.onSecondary,
         ),
         dataTableTheme: DataTableThemeData(
           dataTextStyle: TextStyle(
-            color: kColorScheme.onSecondary,
+            color: kColorScheme.onPrimaryContainer,
             fontSize: 16,
           ),
           decoration: BoxDecoration(

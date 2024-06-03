@@ -11,4 +11,9 @@ class Activity {
   late DateTime startTime;
   late DateTime endTime;
   late String notes;
+
+  @override
+  String toString() {
+    return 'Activity{id: $id, activity: $activity, notes: $notes, startTime: $startTime, endTime: $endTime}';
+  }
 }
