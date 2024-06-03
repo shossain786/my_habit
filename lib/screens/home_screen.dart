@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:my_habit/main.dart';
-import 'package:my_habit/screens/data_entry.dart';
+import 'package:my_habit/widgets/my_floatingaction.dart';
+import 'package:my_habit/widgets/my_navbar.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -71,17 +77,8 @@ class HomeScreen extends StatelessWidget {
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const DataEntryScreen(),
-            ),
-          );
-        },
-        label: const Text('Log Your Activity'),
-      ),
+      floatingActionButton: const MyFloatingActionBtn(),
+      bottomNavigationBar: const MyNavbar(),
     );
   }
 }
