@@ -80,7 +80,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
                       width: 160,
                       label: const Text('Activity'),
                       menuStyle: const MenuStyle(
-                        elevation: MaterialStatePropertyAll(10),
+                        elevation: WidgetStatePropertyAll(10),
                       ),
                       requestFocusOnTap: true,
                       dropdownMenuEntries:
@@ -90,10 +90,10 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
                             value: value,
                             label: value,
                             style: ButtonStyle(
-                              foregroundColor: MaterialStatePropertyAll(
+                              foregroundColor: WidgetStatePropertyAll(
                                 kColorScheme.onSecondary,
                               ),
-                              textStyle: const MaterialStatePropertyAll(
+                              textStyle: const WidgetStatePropertyAll(
                                 TextStyle(
                                   fontSize: 20,
                                   fontWeight: FontWeight.w500,

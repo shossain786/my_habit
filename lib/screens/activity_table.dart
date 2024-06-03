@@ -81,8 +81,8 @@ class _ActivityTableState extends State<ActivityTable> {
                           ),
                         ),
                       ],
-                      color: MaterialStateProperty.resolveWith((states) {
-                        if (states.contains(MaterialState.pressed)) {
+                      color: WidgetStateProperty.resolveWith((states) {
+                        if (states.contains(WidgetState.pressed)) {
                           return Colors.green;
                         }
                         return Colors.blue;

@@ -29,34 +29,34 @@ class MyApp extends StatelessWidget {
         ),
         menuTheme: MenuThemeData(
           style: MenuStyle(
-            backgroundColor: MaterialStatePropertyAll<Color>(
+            backgroundColor: WidgetStatePropertyAll<Color>(
               Colors.purple.withOpacity(0.6),
             ),
-            shadowColor: const MaterialStatePropertyAll(Colors.blue),
-            shape: const MaterialStatePropertyAll(
+            shadowColor: const WidgetStatePropertyAll(Colors.blue),
+            shape: const WidgetStatePropertyAll(
               BeveledRectangleBorder(),
             ),
           ),
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
-            backgroundColor: MaterialStatePropertyAll(
+            backgroundColor: WidgetStatePropertyAll(
               // kColorScheme.onPrimaryContainer.withOpacity(0.3),
               Colors.indigo..withOpacity(0.8),
             ),
-            foregroundColor: MaterialStatePropertyAll(
+            foregroundColor: WidgetStatePropertyAll(
               kColorScheme.onSecondary,
             ),
-            elevation: const MaterialStatePropertyAll(
+            elevation: const WidgetStatePropertyAll(
               20,
             ),
-            shadowColor: const MaterialStatePropertyAll(
+            shadowColor: const WidgetStatePropertyAll(
               Colors.yellowAccent,
             ),
           ),
         ),
         colorScheme: kColorScheme.copyWith(
-          background: kColorScheme.onSecondary,
+          surface: kColorScheme.onSecondary,
         ),
         dataTableTheme: DataTableThemeData(
           dataTextStyle: TextStyle(
@@ -78,10 +78,10 @@ class MyApp extends StatelessWidget {
             wordSpacing: 4,
             fontSize: 18,
           ),
-          dataRowColor: MaterialStatePropertyAll(
+          dataRowColor: WidgetStatePropertyAll(
             kColorScheme.onPrimary.withOpacity(0.2),
           ),
-          headingRowColor: const MaterialStatePropertyAll(
+          headingRowColor: const WidgetStatePropertyAll(
             Colors.blue,
           ),
           dividerThickness: 2,
