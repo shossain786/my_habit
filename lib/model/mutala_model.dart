@@ -14,6 +14,6 @@ class Mutala {
 
   @override
   String toString() {
-    return 'Mutala{id: $id, ayahNo: $ayahNo, surahNo: $surahNo, pageNo: $pageNo, hadis: $hadis, others:$others}';
+    return 'Mutala{id: $id, ayahNo: $ayahNo, surahNo: $surahNo, pageNo: $pageNo, hadis: $hadis, others: $others}';
   }
 }

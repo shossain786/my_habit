@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:my_habit/main.dart';
+import 'package:my_habit/screens/mutala/add_mutala.dart';
 
 import '../screens/data_entry.dart';
 
@@ -58,11 +59,16 @@ class _MyFloatingActionBtnState extends State<MyFloatingActionBtn>
           icon: Icons.note_add_rounded,
           titleStyle: TextStyle(fontSize: 16, color: kColorScheme.onSecondary),
           onPress: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const AddMutalaScreen(),
+              ),
+            );
             _animationController.reverse();
           },
         ),
       ],
-
       animation: _animation,
       onPress: () => _animationController.isCompleted
           ? _animationController.reverse()

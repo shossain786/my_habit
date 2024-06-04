@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:my_habit/main.dart';
+import 'package:my_habit/screens/mutala/display_mutala.dart';
 
 import '../screens/activity_table_screen.dart';
 
@@ -50,7 +51,7 @@ class _MyNavbarState extends State<MyNavbar> {
               ),
               GButton(
                 icon: Icons.star_border_rounded,
-                text: 'Muat\'la',
+                text: 'Muta\'la',
               ),
               GButton(
                 icon: Icons.verified_user,
@@ -77,6 +78,13 @@ class _MyNavbarState extends State<MyNavbar> {
         context,
         MaterialPageRoute(
           builder: (context) => ActivityTableScreen(),
+        ),
+      );
+    } else if (_selectedIndex == 2) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const DisplayMutalaScreen(),
         ),
       );
     }
