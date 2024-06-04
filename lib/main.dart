@@ -12,7 +12,6 @@ void main() {
   ));
 }
 
-
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
@@ -39,11 +38,15 @@ class MyApp extends StatelessWidget {
             ),
           ),
         ),
+        appBarTheme: AppBarTheme(
+          centerTitle: true,
+          backgroundColor: kColorScheme.onPrimaryContainer,
+          foregroundColor: kColorScheme.onSecondary,
+        ),
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ButtonStyle(
             backgroundColor: WidgetStatePropertyAll(
-              // kColorScheme.onPrimaryContainer.withOpacity(0.3),
-              Colors.indigo..withOpacity(0.8),
+              kColorScheme.onPrimaryContainer,
             ),
             foregroundColor: WidgetStatePropertyAll(
               kColorScheme.onSecondary,
@@ -82,8 +85,8 @@ class MyApp extends StatelessWidget {
           dataRowColor: WidgetStatePropertyAll(
             kColorScheme.onPrimary.withOpacity(0.2),
           ),
-          headingRowColor: const WidgetStatePropertyAll(
-            Colors.blue,
+          headingRowColor: WidgetStatePropertyAll(
+            kColorScheme.onPrimaryContainer,
           ),
           dividerThickness: 2,
           horizontalMargin: 10,

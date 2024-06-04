@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:my_habit/main.dart';
 import 'package:my_habit/screens/mutala/display_mutala.dart';
+import 'package:my_habit/screens/test.dart';
 
 import '../screens/activity_table_screen.dart';
 
@@ -85,6 +86,13 @@ class _MyNavbarState extends State<MyNavbar> {
         context,
         MaterialPageRoute(
           builder: (context) => const DisplayMutalaScreen(),
+        ),
+      );
+    }else if (_selectedIndex == 3) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const TestScreen(),
         ),
       );
     }

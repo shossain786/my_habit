@@ -4,8 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:my_habit/services/mutala_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-// import '../../model/mutala_model.dart';
-
 class AddMutalaScreen extends StatefulWidget {
   const AddMutalaScreen({super.key});
 
