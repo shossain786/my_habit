@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:my_habit/services/mutala_service.dart';
+import 'package:my_habit/widgets/my_navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AddMutalaScreen extends StatefulWidget {
@@ -76,6 +77,22 @@ class _AddMutalaScreenState extends State<AddMutalaScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                Expanded(
+                  child: TextFormField(
+                    maxLength: 20,
+                    controller: _surahNoController,
+                    decoration: const InputDecoration(
+                      labelText: 'Surah Name',
+                      border: OutlineInputBorder(),
+                    ),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return 'Please Enter Surah Number';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
                 Row(
                   children: [
                     Expanded(
@@ -90,24 +107,6 @@ class _AddMutalaScreenState extends State<AddMutalaScreen> {
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return 'Please Enter Ayat Number';
-                          }
-                          return null;
-                        },
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    Expanded(
-                      child: TextFormField(
-                        maxLength: 3,
-                        controller: _surahNoController,
-                        decoration: const InputDecoration(
-                          labelText: 'Surah Number',
-                          border: OutlineInputBorder(),
-                        ),
-                        keyboardType: TextInputType.number,
-                        validator: (value) {
-                          if (value == null || value.isEmpty) {
-                            return 'Please Enter Surah Number';
                           }
                           return null;
                         },
@@ -174,6 +173,7 @@ class _AddMutalaScreenState extends State<AddMutalaScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: const MyNavbar(),
     );
   }
 }

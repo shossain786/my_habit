@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
+import 'package:my_habit/widgets/my_navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DisplayMutalaScreen extends StatefulWidget {
@@ -110,6 +111,7 @@ class _DisplayMutalaScreenState extends State<DisplayMutalaScreen> {
                 );
               },
             ),
+      bottomNavigationBar: const MyNavbar(),
     );
   }
 }

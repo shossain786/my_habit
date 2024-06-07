@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:my_habit/main.dart';
+import 'package:my_habit/widgets/my_navbar.dart';
 
 import '../model/activity_model.dart';
 import '../services/activity_service.dart';
@@ -221,6 +222,7 @@ class _DataEntryScreenState extends State<DataEntryScreen> {
           ),
         ),
       ),
+      bottomNavigationBar: const MyNavbar(),
     );
   }
 

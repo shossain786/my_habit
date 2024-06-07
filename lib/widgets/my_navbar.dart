@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:my_habit/main.dart';
+import 'package:my_habit/screens/home_screen.dart';
 import 'package:my_habit/screens/mutala/display_mutala.dart';
 import 'package:my_habit/screens/test.dart';
 
@@ -74,7 +75,14 @@ class _MyNavbarState extends State<MyNavbar> {
   }
 
   void _navigateToScreen() {
-    if (_selectedIndex == 1) {
+    if (_selectedIndex == 0) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const HomeScreen(),
+        ),
+      );
+    } else if (_selectedIndex == 1) {
       Navigator.push(
         context,
         MaterialPageRoute(
@@ -88,7 +96,7 @@ class _MyNavbarState extends State<MyNavbar> {
           builder: (context) => const DisplayMutalaScreen(),
         ),
       );
-    }else if (_selectedIndex == 3) {
+    } else if (_selectedIndex == 3) {
       Navigator.push(
         context,
         MaterialPageRoute(

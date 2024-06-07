@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../model/activity_model.dart';
 import '../services/activity_service.dart';
+import '../widgets/my_navbar.dart';
 import 'activity_table.dart';
 
 class ActivityTableScreen extends StatelessWidget {
@@ -30,6 +31,7 @@ class ActivityTableScreen extends StatelessWidget {
           },
         ),
       ),
+      bottomNavigationBar: const MyNavbar(),
     );
   }
 }
