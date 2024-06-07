@@ -77,21 +77,19 @@ class _AddMutalaScreenState extends State<AddMutalaScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Expanded(
-                  child: TextFormField(
-                    maxLength: 20,
-                    controller: _surahNoController,
-                    decoration: const InputDecoration(
-                      labelText: 'Surah Name',
-                      border: OutlineInputBorder(),
-                    ),
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'Please Enter Surah Number';
-                      }
-                      return null;
-                    },
+                TextFormField(
+                  maxLength: 20,
+                  controller: _surahNoController,
+                  decoration: const InputDecoration(
+                    labelText: 'Surah Name',
+                    border: OutlineInputBorder(),
                   ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please Enter Surah Number';
+                    }
+                    return null;
+                  },
                 ),
                 Row(
                   children: [

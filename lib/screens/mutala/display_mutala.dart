@@ -70,7 +70,7 @@ class _DisplayMutalaScreenState extends State<DisplayMutalaScreen> {
                         ],
                       ),
                       subtitle: Text(
-                        'Surah Number: ${data['surah']}',
+                        'Surah Name: ${data['surah']}',
                         style: const TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 12,
