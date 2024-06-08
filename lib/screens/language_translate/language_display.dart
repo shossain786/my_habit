@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DiplayLanguageScreen extends StatefulWidget {
@@ -16,12 +17,13 @@ class _DiplayLanguageScreenState extends State<DiplayLanguageScreen> {
   @override
   void initState() {
     super.initState();
+    _loadData();
   }
 
   Future<void> _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String? data = prefs.getString('savedData');
+    String? data = prefs.getString('savedLngData');
     if (data != null) {
       List<dynamic> decodedData = json.decode(data);
       setState(() {
@@ -56,13 +58,13 @@ class _DiplayLanguageScreenState extends State<DiplayLanguageScreen> {
                       leading: CircleAvatar(
                         child: Text('$index'),
                       ),
-                      title: const Text(
-                        'Input Text: ',
-                        style: TextStyle(fontSize: 28),
+                      title: Text(
+                        'Input: ${data['inputString']}',
+                        style: const TextStyle(fontSize: 20),
                       ),
-                      subtitle: const Text(
-                        'Output Text:',
-                        style: TextStyle(
+                      subtitle: Text(
+                        'Output: ${data['outPutString']}',
+                        style: const TextStyle(
                           fontSize: 14,
                           fontWeight: FontWeight.bold,
                         ),

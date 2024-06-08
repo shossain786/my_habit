@@ -1,5 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:translator/translator.dart';
 
 class LangTranslate extends StatefulWidget {
@@ -24,6 +27,39 @@ class _LangTranslateState extends State<LangTranslate> {
   final TextEditingController _languageController = TextEditingController();
   String? selectedItem;
   GoogleTranslator translator = GoogleTranslator();
+  List<Map<String, String>> _savedData = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData();
+  }
+
+  Future<void> _loadData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? data = prefs.getString('savedLngData');
+    if (data != null) {
+      List<dynamic> decodedData = json.decode(data);
+      setState(() {
+        _savedData =
+            decodedData.map((item) => Map<String, String>.from(item)).toList();
+      });
+    }
+  }
+
+  Future<void> _saveData() async {
+    debugPrint('data to add $originLanguage, $destinationLanguage');
+    _savedData.add({
+      'inputString': _languageController.text,
+      'outPutString': outPut,
+      'otherData': '',
+    });
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    String encodedData = json.encode(_savedData);
+    await prefs.setString('savedLngData', encodedData);
+    debugPrint('Data added Successfully');
+  }
 
   void langTranslate(String src, String dest, String input) async {
     if (input.isEmpty) {
@@ -85,55 +121,62 @@ class _LangTranslateState extends State<LangTranslate> {
           children: [
             const SizedBox(height: 80),
             Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Expanded(
-                    child: DropdownButton<String>(
-                      focusColor: Colors.white,
-                      hint: Text(originLanguage),
-                      value: selectedItem,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          originLanguage = newValue!;
-                        });
-                      },
-                      items: languages
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      dropdownColor: Colors.white,
-                      icon: const Icon(Icons.keyboard_arrow_down),
+              padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              child: Container(
+                padding: const EdgeInsetsDirectional.all(10),
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Expanded(
+                      child: DropdownButton<String>(
+                        focusColor: Colors.white,
+                        hint: Text(originLanguage),
+                        value: selectedItem,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            originLanguage = newValue!;
+                          });
+                        },
+                        items: languages
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        dropdownColor: Colors.white,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                      ),
                     ),
-                  ),
-                  const SizedBox(width: 40),
-                  const Icon(Icons.arrow_right_alt_rounded),
-                  const SizedBox(width: 40),
-                  Expanded(
-                    child: DropdownButton<String>(
-                      hint: Text(destinationLanguage),
-                      value: selectedItem,
-                      onChanged: (String? newValue) {
-                        setState(() {
-                          destinationLanguage = newValue!;
-                        });
-                      },
-                      items: languages
-                          .map<DropdownMenuItem<String>>((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      dropdownColor: Colors.white,
-                      icon: const Icon(Icons.keyboard_arrow_down),
+                    const SizedBox(width: 40),
+                    const Icon(Icons.arrow_right_alt_rounded),
+                    const SizedBox(width: 40),
+                    Expanded(
+                      child: DropdownButton<String>(
+                        hint: Text(destinationLanguage),
+                        value: selectedItem,
+                        onChanged: (String? newValue) {
+                          setState(() {
+                            destinationLanguage = newValue!;
+                          });
+                        },
+                        items: languages
+                            .map<DropdownMenuItem<String>>((String value) {
+                          return DropdownMenuItem<String>(
+                            value: value,
+                            child: Text(value),
+                          );
+                        }).toList(),
+                        dropdownColor: Colors.white,
+                        icon: const Icon(Icons.keyboard_arrow_down),
+                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
             const SizedBox(height: 40),
@@ -184,6 +227,8 @@ class _LangTranslateState extends State<LangTranslate> {
                   child: const Text(
                     'Translate',
                     style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
                       letterSpacing: 2,
                     ),
                   ),
@@ -193,19 +238,30 @@ class _LangTranslateState extends State<LangTranslate> {
             const SizedBox(height: 30),
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text(
-                    outPut,
-                    style: const TextStyle(fontSize: 24),
-                  ),
-                  if (outPut.isNotEmpty)
-                    IconButton(
-                      onPressed: _copyText,
-                      icon: const Icon(Icons.copy_rounded),
-                    )
-                ],
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(width: 1),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Text(
+                      outPut,
+                      style: const TextStyle(fontSize: 24),
+                    ),
+                    if (outPut.isNotEmpty)
+                      IconButton(
+                        onPressed: _copyText,
+                        icon: const Icon(Icons.copy_rounded),
+                      ),
+                    if (outPut.isNotEmpty)
+                      IconButton(
+                        onPressed: _saveData,
+                        icon: const Icon(Icons.add_shopping_cart_rounded),
+                      )
+                  ],
+                ),
               ),
             ),
           ],
