@@ -38,10 +38,18 @@ class LangServices extends ChangeNotifier {
     }
   }
 
-  Future<List<MyLang>> getMutala() async {
+  Future<List<MyLang>> getLanguages() async {
     final isar = await lngDB;
-    final mutalas = await isar.myLangs.where().findAll();
-    debugPrint('Fetched mutalas: $mutalas');
-    return mutalas;
+    final languages = await isar.myLangs.where().findAll();
+    debugPrint('Fetched mutalas: $languages');
+    return languages;
+  }
+
+  Future<void> deleteLanguageData(int id) async {
+    final isar = await lngDB;
+    await isar.writeTxn(() async {
+      await isar.myLangs.delete(id);
+    });
+    notifyListeners();
   }
 }
