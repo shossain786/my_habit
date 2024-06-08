@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:floating_action_bubble/floating_action_bubble.dart';
 import 'package:my_habit/main.dart';
+import 'package:my_habit/screens/language_translate/lang_translator.dart';
 import 'package:my_habit/screens/mutala/add_mutala.dart';
 
 import '../screens/data_entry.dart';
@@ -36,6 +37,22 @@ class _MyFloatingActionBtnState extends State<MyFloatingActionBtn>
     FloatingActionButtonLocation.endDocked;
     return FloatingActionBubble(
       items: <Bubble>[
+        Bubble(
+          title: "Language Translate",
+          iconColor: kColorScheme.onSecondary,
+          bubbleColor: kColorScheme.onPrimaryContainer,
+          icon: Icons.language_rounded,
+          titleStyle: TextStyle(fontSize: 16, color: kColorScheme.onSecondary),
+          onPress: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (BuildContext context) => const LangTranslate(),
+              ),
+            );
+            _animationController.reverse();
+          },
+        ),
         Bubble(
           title: "Add Activities",
           iconColor: kColorScheme.onSecondary,
