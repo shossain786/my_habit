@@ -1,55 +1,34 @@
-import 'package:flutter/material.dart';
 import 'package:isar/isar.dart';
-import 'package:my_habit/model/lang_model.dart';
-import 'package:path_provider/path_provider.dart';
+import '../model/lang_model.dart';
 
-class LangServices extends ChangeNotifier {
-  late Future<Isar> lngDB;
+class MyLangService {
+  final IsarCollection<MyLang> _myLangCollection;
 
-  LangServices() {
-    lngDB = openLangDB();
-  }
+  MyLangService(this._myLangCollection);
 
-  Future<Isar> openLangDB() async {
-    if (Isar.instanceNames.isEmpty) {
-      final dir = await getApplicationDocumentsDirectory();
-      final isar = Isar.open(
-        [MyLangSchema],
-        directory: dir.path,
-        inspector: true,
-      );
-      return isar;
-    }
-    return Future.value(Isar.getInstance());
-  }
-
-  Future<void> addLang(MyLang myLang) async {
-    try {
-      final isar = await lngDB;
-      await isar.writeTxn(
-        () async {
-          await isar.myLangs.put(myLang);
-        },
-      );
-      debugPrint('My Languages added successfully');
-      notifyListeners();
-    } catch (e) {
-      debugPrint(e.toString());
-    }
-  }
-
-  Future<List<MyLang>> getLanguages() async {
-    final isar = await lngDB;
-    final languages = await isar.myLangs.where().findAll();
-    debugPrint('Fetched mutalas: $languages');
-    return languages;
-  }
-
-  Future<void> deleteLanguageData(int id) async {
-    final isar = await lngDB;
-    await isar.writeTxn(() async {
-      await isar.myLangs.delete(id);
+  Future<void> addMyLang(MyLang myLang) async {
+    await _myLangCollection.isar.writeTxn(() async {
+      await _myLangCollection.put(myLang);
     });
-    notifyListeners();
+  }
+
+  Future<MyLang?> getMyLangById(int id) async {
+    return await _myLangCollection.get(id);
+  }
+
+  Future<List<MyLang>> getAllMyLangs() async {
+    return await _myLangCollection.where().findAll();
+  }
+
+  Future<void> updateMyLang(MyLang myLang) async {
+    await _myLangCollection.isar.writeTxn(() async {
+      await _myLangCollection.put(myLang);
+    });
+  }
+
+  Future<void> deleteMyLangById(int id) async {
+    await _myLangCollection.isar.writeTxn(() async {
+      await _myLangCollection.delete(id);
+    });
   }
 }

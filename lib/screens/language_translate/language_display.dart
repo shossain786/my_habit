@@ -1,13 +1,11 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:expansion_tile_card/expansion_tile_card.dart';
 import 'package:flutter/material.dart';
 import 'package:my_habit/widgets/my_navbar.dart';
-import 'package:provider/provider.dart';
-
 import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../services/lang_services.dart';
 
 class DiplayLanguageScreen extends StatefulWidget {
   const DiplayLanguageScreen({super.key});
@@ -18,6 +16,7 @@ class DiplayLanguageScreen extends StatefulWidget {
 
 class _DiplayLanguageScreenState extends State<DiplayLanguageScreen> {
   List<Map<String, String>> _savedLangData = [];
+
   @override
   void initState() {
     super.initState();
@@ -26,7 +25,6 @@ class _DiplayLanguageScreenState extends State<DiplayLanguageScreen> {
 
   Future<void> _loadData() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-
     String? data = prefs.getString('savedLngData');
     if (data != null) {
       List<dynamic> decodedData = json.decode(data);
@@ -37,9 +35,16 @@ class _DiplayLanguageScreenState extends State<DiplayLanguageScreen> {
     }
   }
 
-  Future<void> deleteItem(int id) async {
-    await Provider.of<LangServices>(context, listen: false)
-        .deleteLanguageData(id);
+  void _deleteItem(int index) async {
+    setState(() {
+      _savedLangData.removeAt(index);
+    });
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('savedLngData', json.encode(_savedLangData));
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Card removed successfully')));
   }
 
   @override
@@ -95,7 +100,8 @@ class _DiplayLanguageScreenState extends State<DiplayLanguageScreen> {
                         IconButton(
                           icon: const Icon(Icons.delete_forever_rounded),
                           onPressed: () {
-                            deleteItem(int.parse(data['id']!));
+                            debugPrint('Id to delete: $index');
+                            _deleteItem(index);
                           },
                         ),
                       ],
