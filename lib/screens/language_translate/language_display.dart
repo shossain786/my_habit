@@ -95,7 +95,7 @@ class _DiplayLanguageScreenState extends State<DiplayLanguageScreen> {
                         IconButton(
                           icon: const Icon(Icons.delete_forever_rounded),
                           onPressed: () {
-                            // deleteItem(int.parse(data['id']!));
+                            deleteItem(int.parse(data['id']!));
                           },
                         ),
                       ],

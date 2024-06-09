@@ -30,7 +30,8 @@ class _LangTranslateState extends State<LangTranslate> {
   var outPut = "";
   final TextEditingController _languageController = TextEditingController();
   final TextEditingController _otherController = TextEditingController();
-  String? selectedItem;
+  String? selectedOriginLanguage;
+  String? selectedDestinationLanguage;
   GoogleTranslator translator = GoogleTranslator();
   List<Map<String, String>> _savedData = [];
 
@@ -85,10 +86,22 @@ class _LangTranslateState extends State<LangTranslate> {
       return;
     }
     debugPrint('SRC: $src, dest: $dest, input: $input');
-    var translation = await translator.translate(input, from: src, to: dest);
-    setState(() {
-      outPut = translation.toString();
-    });
+    try {
+      var translation = await translator.translate(input, from: src, to: dest);
+      setState(() {
+        outPut = translation.toString();
+        debugPrint('Translation: $outPut');
+      });
+    } catch (e) {
+      debugPrint('Error translating: $e');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'Translation failed of the text $input. Please try again later.'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   String getLanguageCode(String lang) {
@@ -147,9 +160,10 @@ class _LangTranslateState extends State<LangTranslate> {
                       child: DropdownButton<String>(
                         focusColor: Colors.white,
                         hint: Text(originLanguage),
-                        value: selectedItem,
+                        value: selectedOriginLanguage,
                         onChanged: (String? newValue) {
                           setState(() {
+                            selectedOriginLanguage = newValue;
                             originLanguage = newValue!;
                           });
                         },
@@ -170,9 +184,10 @@ class _LangTranslateState extends State<LangTranslate> {
                     Expanded(
                       child: DropdownButton<String>(
                         hint: Text(destinationLanguage),
-                        value: selectedItem,
+                        value: selectedDestinationLanguage,
                         onChanged: (String? newValue) {
                           setState(() {
+                            selectedDestinationLanguage = newValue;
                             destinationLanguage = newValue!;
                           });
                         },
@@ -239,76 +254,76 @@ class _LangTranslateState extends State<LangTranslate> {
             ),
             const SizedBox(height: 10),
             if (outPut.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 2),
-                  decoration: BoxDecoration(
+              Container(
+                margin: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       width: 1,
                       color: kColorScheme.onPrimaryContainer,
-                    ),
-                    boxShadow: const [
-                      BoxShadow(color: Colors.white60),
-                    ],
-                  ),
-                  child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 6, vertical: 4),
-                    child: SizedBox(
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 150,
-                            child: Text(
-                              outPut,
-                              style: TextStyle(
-                                fontSize: 24,
-                                color: kColorScheme.onPrimaryContainer,
-                              ),
-                              softWrap: true,
-                              overflow: TextOverflow.visible,
-                            ),
-                          ),
-                          TextFormField(
-                            cursorColor: Colors.white,
-                            decoration: const InputDecoration(
-                              hintText: 'Other details',
-                              border: OutlineInputBorder(
-                                borderSide: BorderSide(width: 0),
-                              ),
-                            ),
-                            maxLines: 2,
-                            controller: _otherController,
-                          ),
-                          const SizedBox(height: 6),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              ElevatedButton.icon(
-                                onPressed: _saveData,
-                                label: const Text('Add to My List'),
-                                icon: Icon(
-                                  Icons.add_shopping_cart_rounded,
-                                  color: kColorScheme.onSecondary,
-                                ),
-                              ),
-                              const Spacer(),
-                              ElevatedButton.icon(
-                                onPressed: _copyText,
-                                label: const Text('Copy Text'),
-                                icon: Icon(
-                                  Icons.copy_rounded,
-                                  color: kColorScheme.onSecondary,
-                                ),
-                              ),
-                            ],
-                          )
-                        ],
+                    )),
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Text(
+                        'Output: $outPut',
+                        style: const TextStyle(fontSize: 20),
                       ),
                     ),
-                  ),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(4),
+                      child: TextFormField(
+                        cursorColor: Colors.white,
+                        decoration: const InputDecoration(
+                          hintText: 'Other details',
+                          border: OutlineInputBorder(
+                            borderSide: BorderSide(width: 0),
+                          ),
+                        ),
+                        maxLines: 2,
+                        controller: _otherController,
+                      ),
+                    ),
+                    const SizedBox(height: 10),
+                    Padding(
+                      padding: const EdgeInsets.all(4.0),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          ElevatedButton.icon(
+                            onPressed: _saveData,
+                            label: const Text('Add'),
+                            icon: Icon(
+                              Icons.add_shopping_cart_rounded,
+                              color: kColorScheme.onSecondary,
+                            ),
+                          ),
+                          ElevatedButton.icon(
+                            onPressed: () {
+                              setState(() {
+                                _otherController.clear();
+                              });
+                            },
+                            label: const Text('Clear'),
+                            icon: Icon(
+                              Icons.clear_rounded,
+                              color: kColorScheme.onSecondary,
+                            ),
+                          ),
+                          ElevatedButton.icon(
+                            onPressed: _copyText,
+                            label: const Text('Copy'),
+                            icon: Icon(
+                              Icons.copy_rounded,
+                              color: kColorScheme.onSecondary,
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
                 ),
               ),
           ],
