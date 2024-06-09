@@ -4,7 +4,6 @@ import 'package:my_habit/main.dart';
 import 'package:my_habit/screens/home_screen.dart';
 import 'package:my_habit/screens/language_translate/language_display.dart';
 import 'package:my_habit/screens/mutala/display_mutala.dart';
-import 'package:my_habit/screens/test.dart';
 
 import '../screens/activity_table_screen.dart';
 

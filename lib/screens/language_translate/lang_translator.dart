@@ -1,8 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
 import 'package:my_habit/main.dart';
 import 'package:my_habit/widgets/my_navbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,13 +54,12 @@ class _LangTranslateState extends State<LangTranslate> {
 
   Future<void> _saveData() async {
     debugPrint('data to add $originLanguage, $destinationLanguage');
-    if (_otherController.text.isEmpty) {
-      
-    }
+    if (_otherController.text.isEmpty) {}
     _savedData.add({
       'inputString': _languageController.text,
       'outPutString': outPut,
-      'otherData': _otherController.text.isNotEmpty? _otherController.text: '',
+      'otherData':
+          _otherController.text.isNotEmpty ? _otherController.text : '',
     });
 
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -131,7 +131,7 @@ class _LangTranslateState extends State<LangTranslate> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            const SizedBox(height: 40),
+            const SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
               child: Container(
@@ -191,7 +191,7 @@ class _LangTranslateState extends State<LangTranslate> {
                 ),
               ),
             ),
-            const SizedBox(height: 40),
+            const SizedBox(height: 20),
             Padding(
               padding: const EdgeInsetsDirectional.all(10),
               child: TextFormField(
@@ -260,7 +260,7 @@ class _LangTranslateState extends State<LangTranslate> {
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 100,
+                            height: 150,
                             child: Text(
                               outPut,
                               style: TextStyle(
